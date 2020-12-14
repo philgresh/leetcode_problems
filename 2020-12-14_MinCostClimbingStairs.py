@@ -1,3 +1,4 @@
+# https://leetcode.com/problems/min-cost-climbing-stairs/
 # 746. Min Cost Climbing Stairs
 # Easy
 
@@ -9,7 +10,7 @@
 # and you can either start from the step with index 0, or the step with index 1.
 
 
-def minCostClimbingStairs(self, cost: List[int]) -> int:
+def minCostClimbingStairs(self, cost) -> int:
   n = len(cost)
   dp = cost.copy()
   for i in range(2, n):
