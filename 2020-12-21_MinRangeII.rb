@@ -11,7 +11,7 @@ require "byebug"
 # @param {Integer[]} a
 # @param {Integer} k
 # @return {Integer}
-def smallest_range_ii(a, k)
+def smallest_range_ii(arr, k)
   arr.sort!
   min = arr[0]
   max = arr[-1]
