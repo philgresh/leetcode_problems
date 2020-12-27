@@ -49,39 +49,42 @@ require "byebug"
 
 #   return dp
 # end
+require "set"
 
 def min_jumps(arr)
-  n = arr.size
-  dict = Hash.new { |h, k| [] }
-  arr.each_with_index { |ele, i| dict[ele] << i }
+  arr_count = arr.count
 
-  dp = Array.new(arr.size) { |i| i }
-  dp[0] = 0
-  queue = [0]
+  graph = Hash.new { |h, k| h[k] = [] }
+  arr_count.times do |i|
+    graph[arr[i]] << i
+  end
 
-  while queue.size > 0 && queue[0] != n - 1
-    curr = queue.pop
-    prev = curr - 1
-    if prev >= 0 && dp[prev] == Float::INFINITY
-      dp[prev] = dp[curr] + 1
-      queue << prev
-    end
-    nxt = curr + 1
-    if nxt < n && dp[nxt] == Float::INFINITY
-      dp[nxt] = dp[curr] + 1
-      queue << nxt
-    end
-    if dict[arr[curr]]
-      dict[arr[curr]].each do |ele|
-        if dp[ele] == Float::INFINITY
-          dp[ele] = dp[curr] + 1
-          queue << ele
-        end
-        dict.delete(arr[curr])
+  src = 0
+  dest = arr_count - 1
+
+  visited = Set.new
+  visited << src
+
+  queue = []
+  queue << [src, 0]
+
+  until queue.empty?
+    node, dist = queue.shift
+    return dist if node == dest
+
+    ([node - 1, node + 1] + graph[arr[node]].reverse).each do |child|
+      if 0 <= child &&
+         child < arr_count &&
+         child != node &&
+         !visited.include?(child)
+        visited << child
+        return dist + 1 if child == dest
+        queue << [child, dist + 1]
       end
     end
   end
-  return dp.last
+
+  -1
 end
 
 # Return the minimum number of steps to reach the last index of the array.
