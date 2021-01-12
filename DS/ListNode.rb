@@ -16,15 +16,17 @@ class ListNode
     head
   end
 
-  def print_chain
-    curr = self
+  def self.print_chain(head)
+    curr = head
     vals = []
     until curr.nil?
-      vals << self.val
+      vals << curr.val
       curr = curr.next
     end
     vals
   end
+
+  
 
   def to_s
     next_val = @next.nil? ? nil : @next.val
