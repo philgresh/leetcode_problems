@@ -2,40 +2,45 @@
 # 402. Remove K Digits
 # Medium
 
-# Given a non-negative integer num represented as a string, remove k digits from the number so that the new number is the smallest possible.
+# Given a non-negative integer num represented as a string, remove k digits
+# from the number so that the new number is the smallest possible.
 # Note:
 
 #     The length of num is less than 10002 and will be ≥ k.
 #     The given num does not contain any leading zero.
 
-# Iterate through num with index i = 0 while i < num.size - 1
-#   If num[i+1] < num[i] then we'll remove i (If all the same, remove the last)
-#   Recursively call the function with the shortened number and decremented k
-# Return
-
 # @param {String} num
 # @param {Integer} k
 # @return {String}
 require "byebug"
+require_relative "../../DS/Queue.rb"
 
-def remove_kdigits(num, k)
-  return num.to_i if k == 0
+def remove_kdigits(input, k)
+  return "0" if k == input.size
+  return input if k == 0
 
-  i = 0
-  new_num = num
-  while i < num.size - 1
-    if num[i].to_i > num[i + 1].to_i
-      new_num = num[0...i].concat(num[i + 1..-1])
-      break
+  # Initialize empty stack and add input vals to queue
+  # Pop first val from queue and add to stack
+  # While k > 0 and queue.size > 0:
+  #   Compare queue.first and stack.last, pop from stack if stack.last is greater
+  # Handle leading zeroes
+  # Handle remaining k
+  # Return
+
+  stack = []
+  input.each_char do |char|
+    digit = char.to_i
+    while k > 0 && stack.size > 0 && stack.last > digit
+      stack.pop
+      k -= 1
     end
-    i += 1
-  end
-  if i == num.size - 1
-    new_num = num[0...-1]
+    stack.push(digit)
   end
 
-  min_num = remove_kdigits(new_num, k - 1)
-  return min_num.to_i.to_s
+  stack = stack[0...-k] if k > 0
+  i = 0
+  i += 1 while i < stack.size - 1 && stack[i] == 0
+  return stack[i..-1].join("")
 end
 
 # Example 1:
@@ -68,3 +73,11 @@ puts remove_kdigits(num, k)
 num = "1234567890"
 k = 10
 puts remove_kdigits(num, k) # => 0
+
+num = "45319"
+k = 2
+puts remove_kdigits(num, k) # => 319
+
+num = "112"
+k = 1
+puts remove_kdigits(num, k) # => 12
