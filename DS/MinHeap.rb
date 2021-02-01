@@ -1,7 +1,9 @@
 class MinHeap
   attr_accessor :heap
 
-  def initialize(array)
+  def initialize(array, &comparator)
+    @cmp = comparator || lambda { |a, b| a < b }
+    array ||= []
     @heap = build_heap(array)
   end
 
@@ -21,12 +23,12 @@ class MinHeap
     while (left_idx < array.size)
       right_idx = right(curr_idx)
       right_idx = nil if (right_idx > array.length - 1)
-      if right_idx != nil && array[right_idx] < array[left_idx]
+      if right_idx != nil && @cmp.call(array[right_idx], array[left_idx])
         idx_to_swap = right_idx
       else
         idx_to_swap = left_idx
       end
-      if array[idx_to_swap] < array[curr_idx]
+      if @cmp.call(array[idx_to_swap], array[curr_idx])
         swap(curr_idx, idx_to_swap, array)
         curr_idx = idx_to_swap
         left_idx = left(curr_idx)
@@ -39,7 +41,7 @@ class MinHeap
   def sift_up(idx)
     parent_idx = parent(idx)
     curr_idx = idx
-    while curr_idx > 0 && @heap[curr_idx] < @heap[parent_idx]
+    while curr_idx > 0 && @cmp.call(@heap[curr_idx], @heap[parent_idx])
       swap(curr_idx, parent_idx)
       curr_idx = parent_idx
       parent_idx = parent(curr_idx)
