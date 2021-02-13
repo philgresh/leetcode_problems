@@ -1,7 +1,12 @@
+
 class MinHeap {
   constructor(array) {
     this.heap = this.buildHeap(array);
-  }
+	}
+	
+	isEmpty() {
+		return this.heap.length === 0;
+	}
 
   buildHeap(array) {
     let currIdx = Math.floor((array.length - 2) / 2);

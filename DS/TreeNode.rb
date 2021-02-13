@@ -10,19 +10,14 @@ class TreeNode
   def self.nodify(arr)
     nodes = arr.map { |v| TreeNode.new(v) }
     nodes.each.with_index do |node, i|
-      node.left = nodes[2*i + 1]
-      node.right = nodes[2*i + 2]
+      node.left = nodes[2 * i + 1]
+      node.right = nodes[2 * i + 2]
     end
+    return nodes.first
   end
 
-  def self.print_chain(head)
-    curr = head
-    vals = []
-    until curr.nil?
-      vals << curr.val
-      curr = curr.next
-    end
-    vals
+  def print_chain
+    # TODO: Print binary tree from this node
   end
 
   def to_s

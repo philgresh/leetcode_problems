@@ -6,13 +6,13 @@ class Node
     @next = next_node
   end
 end
-require 'byebug'
+
 class Queue
-  attr_reader :size
+  attr_reader :size, :first
 
   def initialize
-    @first = Node.new(nil)
-    @last = @first
+    @first = nil
+    @last = nil
     @size = 0
   end
 
@@ -23,37 +23,33 @@ class Queue
   end
 
   def push(val)
-    if @first.val.nil?
-      unshift(val)
-      return
+    if @first.nil? && @last.nil?
+      new_node = Node.new(val)
+      @first = new_node
+      @last = @first
+      @size = 1
+      return @first
     end
     @size += 1
     @last.next = Node.new(val)
     @last = @last.next
+    return @last
   end
 
-  def shift(n = 1)
-    shifted = []
-    debugger
-    return shifted if self.empty?
-    while n > 0 && @size > 0
-      shifted << peek
+  def shift
+    return nil if empty?
+    @size -= 1
+    temp = @first.val
+    if @size == 0
+      @first = @last = nil
+    else
       @first = @first.next
-      @size -= 1
     end
-    shifted
-  end
-
-  def pop(n = 1)
-    shift(n)
+    return temp
   end
 
   def peek
     @first.val unless @first.nil?
-  end
-
-  def first
-    peek
   end
 
   def empty?
@@ -75,14 +71,6 @@ class Queue
     return new_string
   end
 
-  def inspect
-    stringify
-  end
-
-  def to_s
-    stringify
-  end
-
   def to_a
     result = []
     return result if @first.nil?
@@ -94,13 +82,5 @@ class Queue
     return result
   end
 
-  private
-
-  def unshift(val)
-    new_node = Node.new(val, @first)
-    @last = @first if @last and @last.val.nil?
-  end
+  alias :<< push
 end
-
-qu = Queue.queuify([1, 2, 3, 4])
-qu.stringify
