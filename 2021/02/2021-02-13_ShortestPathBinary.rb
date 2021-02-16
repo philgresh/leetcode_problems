@@ -29,7 +29,7 @@
 # Space complexity: O(n)
 require_relative "../../DS/Queue.rb"
 require "byebug"
-require 'set'
+require "set"
 
 DIRS = [
   [1, 1],
@@ -56,7 +56,7 @@ def shortest_path_binary_matrix(grid)
   counter = 1
   queue = Queue.new()
   queue.push([0, 0])
-  visited.add([0,0])
+  visited.add([0, 0])
 
   until queue.empty?
     this_layer = queue.size
@@ -132,9 +132,41 @@ grid = [
   [0],
 ]
 puts shortest_path_binary_matrix(grid)
+# Output: 1
+
+# Example 6:
+
+# Input:
+grid = [
+  [1],
+]
+puts shortest_path_binary_matrix(grid)
 # Output: -1
+
+# Example 7:
+
+# Input:
+grid = [
+  [0, 1, 1, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0],
+  [0, 1, 1, 1, 1, 0],
+  [0, 0, 0, 0, 0, 0],
+  [0, 1, 0, 1, 1, 0],
+  [0, 1, 1, 0, 0, 0],
+]
+puts shortest_path_binary_matrix(grid)
+# Output: 8
 
 # Note:
 
 #     1 <= grid.length == grid[0].length <= 100
 #     grid[r][c] is 0 or 1
+
+board = [
+  ["a", "a", "a", "a", "a"],
+  ["a", "a", "a", "a", "a"],
+  ["a", "a", "a", "a", "a"],
+  ["a", "a", "a", "a", "a"],
+  ["a", "a", "a", "a", "b"],
+]
+word = "aaaaaab"
