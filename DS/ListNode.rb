@@ -19,7 +19,7 @@ class ListNode
   def self.print_chain(head)
     curr = head
     vals = []
-    until curr.nil?
+    while curr
       vals << curr.val
       curr = curr.next
     end
